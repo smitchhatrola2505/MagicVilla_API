@@ -1,8 +1,10 @@
 
+using MagicVilla_VillaApi;
 using MagicVilla_VillaApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(option => {
 	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 	});
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers(option =>
 {
 	//option.ReturnHttpNotAcceptable = true;
