@@ -12,6 +12,8 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddHttpClient<IVillaService, VillaServices>();
 builder.Services.AddScoped<IVillaService, VillaServices>();
 
+builder.Services.AddHttpClient<IVillaNumberService, VillaNumberServices>();
+builder.Services.AddScoped<IVillaNumberService, VillaNumberServices>();
 
 var app = builder.Build();
 

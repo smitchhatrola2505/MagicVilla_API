@@ -85,7 +85,7 @@ namespace MagicVilla_VillaApi.Controllers
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public ActionResult<APIResponse> CreateVilla([FromBody] VillaCreateDTO createDTO)
+		public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
 		{
 			//if (!ModelState.IsValid)
 			//{
@@ -94,7 +94,7 @@ namespace MagicVilla_VillaApi.Controllers
 
 			try
 			{
-				if (_dbVila.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
+				if (await _dbVila.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
 				{
 					ModelState.AddModelError("CustomError", "Villa already Exits!");
 					return BadRequest(ModelState);
