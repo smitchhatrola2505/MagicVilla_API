@@ -96,7 +96,7 @@ namespace MagicVilla_VillaApi.Controllers
 			{
 				if (await _dbVila.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
 				{
-					ModelState.AddModelError("CustomError", "Villa already Exits!");
+					ModelState.AddModelError("ErrorMessage", "Villa already Exits!");
 					return BadRequest(ModelState);
 				}
 

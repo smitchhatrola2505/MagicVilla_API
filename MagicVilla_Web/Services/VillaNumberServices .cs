@@ -22,7 +22,7 @@ namespace MagicVilla_Web.Services
 			{
 				ApiType = SD.ApiType.POST,
 				Data = dto,
-				Url = villaUrl + "/api/villaAPI"
+				Url = villaUrl + "/api/villaNumberAPI"
 			});
 		}
 

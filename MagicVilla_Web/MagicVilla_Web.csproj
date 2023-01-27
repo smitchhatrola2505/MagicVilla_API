@@ -7,6 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\home\confirmation.jpg" />
+    <Content Remove="wwwroot\images\home\slide1.jpg" />
+    <Content Remove="wwwroot\images\home\slide2.jpg" />
+    <Content Remove="wwwroot\images\villa\villa1.jpg" />
+    <Content Remove="wwwroot\images\villa\villa2.jpg" />
+    <Content Remove="wwwroot\images\villa\villa3.jpg" />
+    <Content Remove="wwwroot\images\villa\villa4.jpg" />
+    <Content Remove="wwwroot\images\villa\villa5.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\home\confirmation.jpg" />
+    <None Include="wwwroot\images\home\slide1.jpg" />
+    <None Include="wwwroot\images\home\slide2.jpg" />
+    <None Include="wwwroot\images\villa\villa1.jpg" />
+    <None Include="wwwroot\images\villa\villa2.jpg" />
+    <None Include="wwwroot\images\villa\villa3.jpg" />
+    <None Include="wwwroot\images\villa\villa4.jpg" />
+    <None Include="wwwroot\images\villa\villa5.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

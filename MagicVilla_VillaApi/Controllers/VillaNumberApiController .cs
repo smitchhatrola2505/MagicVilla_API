@@ -34,7 +34,7 @@ namespace MagicVilla_VillaApi.Controllers
 		{
 			try
 			{
-				IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync();
+				IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync(includeProperties:"Villa");
 				_response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumberList);
 				_response.StatusCode = HttpStatusCode.OK;
 				return Ok(_response);
@@ -94,13 +94,13 @@ namespace MagicVilla_VillaApi.Controllers
 			{
 				if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
 				{
-					ModelState.AddModelError("CustomError", "Villa already Exits!");
+					ModelState.AddModelError("ErrorMessage", "Villa already Exits!");
 					return BadRequest(ModelState);
 				}
 
 				if (await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null)
 				{
-					ModelState.AddModelError("CustomError", "Villa Id Is Invalid!");
+					ModelState.AddModelError("ErrorMessage", "Villa Id Is Invalid!");
 					return BadRequest(ModelState);
 				}
 
@@ -173,7 +173,7 @@ namespace MagicVilla_VillaApi.Controllers
 
 				if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaID) == null)
 				{
-					ModelState.AddModelError("CustomError", "Villa Id Is Invalid!");
+					ModelState.AddModelError("ErrorMessage", "Villa Id Is Invalid!");
 					return BadRequest(ModelState);
 				}
 
