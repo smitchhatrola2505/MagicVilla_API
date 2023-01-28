@@ -171,7 +171,7 @@ namespace MagicVilla_Web.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteVillaNumber(VillaNumbersDeleteVM model)
 		{
-			var response = await _villaService.DeleteAsync<APIResponse>(model.VillaNumber.VillaNo);
+			var response = await _villaNumberService.DeleteAsync<APIResponse>(model.VillaNumber.VillaNo);
 			if (response != null && response.IsSuccess)
 			{
 				return RedirectToAction(nameof(IndexVillaNumber));
