@@ -15,6 +15,18 @@ builder.Services.AddScoped<IVillaService, VillaServices>();
 builder.Services.AddHttpClient<IVillaNumberService, VillaNumberServices>();
 builder.Services.AddScoped<IVillaNumberService, VillaNumberServices>();
 
+builder.Services.AddHttpClient<IAuthServices, AuthServices>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout= TimeSpan.FromMinutes(100);
+	options.Cookie.HttpOnly= true;
+	options.Cookie.IsEssential= true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +43,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
 	name: "default",
