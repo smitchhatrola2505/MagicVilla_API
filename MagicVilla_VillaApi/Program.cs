@@ -4,6 +4,7 @@ using MagicVilla_VillaApi.Data;
 using MagicVilla_VillaApi.Repository;
 using MagicVilla_VillaApi.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
@@ -32,6 +33,18 @@ builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddApiVersioning(options =>
+{
+	options.AssumeDefaultVersionWhenUnspecified = true;
+	options.DefaultApiVersion = new ApiVersion(1,0);
+	options.ReportApiVersions= true;
+});
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+	options.GroupNameFormat = "'v'VVV";
+	options.SubstituteApiVersionInUrl= true;
+});
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
@@ -69,12 +82,12 @@ builder.Services.AddSwaggerGen(options =>
 	options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 	{
 		Description =
-		"JWT Authorization header using the Bearer scheme. \r\n\r\n "+
-		"Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n"+
+		"JWT Authorization header using the Bearer scheme. \r\n\r\n " +
+		"Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n" +
 		"Example: \"Bearer 12345abcdef\"",
-		Name="Authorization",
+		Name = "Authorization",
 		In = ParameterLocation.Header,
-		Scheme= "Bearer"
+		Scheme = "Bearer"
 	});
 	options.AddSecurityRequirement(new OpenApiSecurityRequirement()
 	{
@@ -88,7 +101,7 @@ builder.Services.AddSwaggerGen(options =>
 				},
 				Scheme = "oauth2",
 				Name = "Bearer",
-				In = ParameterLocation.Header,	
+				In = ParameterLocation.Header,
 			},
 			new List<string>()
 		}
