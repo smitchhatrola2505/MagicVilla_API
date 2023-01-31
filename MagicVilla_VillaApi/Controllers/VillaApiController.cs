@@ -28,7 +28,6 @@ namespace MagicVilla_VillaApi.Controllers
 
 
 		[HttpGet]
-		[Authorize]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -49,7 +48,6 @@ namespace MagicVilla_VillaApi.Controllers
 			return _response;
 		}
 
-		[Authorize(Roles = "admin")]
 		[HttpGet("{id:int}", Name = "GetVilla")]
 		[ProducesResponseType(StatusCodes.Status403Forbidden)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -89,6 +87,8 @@ namespace MagicVilla_VillaApi.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "admin")]
+
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -149,7 +149,7 @@ namespace MagicVilla_VillaApi.Controllers
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		[Authorize(Roles = "CUSTOM")]
+		[Authorize(Roles = "admin")]
 
 		public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
 		{
@@ -178,6 +178,7 @@ namespace MagicVilla_VillaApi.Controllers
 			return _response;
 		}
 
+		[Authorize(Roles = "admin")]
 		[HttpPut("{id:int}", Name = "UpdateVilla")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -218,11 +219,11 @@ namespace MagicVilla_VillaApi.Controllers
 			return _response;
 		}
 
-		[HttpPatch("{id:int}", Name = "UpdateVilla")]
+		[HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-		public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTOUpdate> patchDTO)
+		public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaDTOUpdate> patchDTO)
 		{
 			if (patchDTO == null || id == 0)
 			{
