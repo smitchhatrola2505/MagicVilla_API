@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Data;
+using System.Linq.Expressions;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 
+
+builder.Services.AddResponseCaching();
+
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
@@ -36,14 +40,14 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddApiVersioning(options =>
 {
 	options.AssumeDefaultVersionWhenUnspecified = true;
-	options.DefaultApiVersion = new ApiVersion(1,0);
-	options.ReportApiVersions= true;
+	options.DefaultApiVersion = new ApiVersion(1, 0);
+	options.ReportApiVersions = true;
 });
 
 builder.Services.AddVersionedApiExplorer(options =>
 {
 	options.GroupNameFormat = "'v'VVV";
-	options.SubstituteApiVersionInUrl= true;
+	options.SubstituteApiVersionInUrl = true;
 });
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
@@ -72,6 +76,12 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers(option =>
 {
+	option.CacheProfiles.Add("Default30",
+		new CacheProfile()
+		{
+			Duration = 30
+		});
+
 	//option.ReturnHttpNotAcceptable = true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -107,21 +117,21 @@ builder.Services.AddSwaggerGen(options =>
 		}
 	});
 
-	options.SwaggerDoc("v1",new OpenApiInfo
+	options.SwaggerDoc("v1", new OpenApiInfo
 	{
 		Version = "v1.0",
-		Title ="Magic Villa V1",
+		Title = "Magic Villa V1",
 		Description = "API to manage Villa",
 		TermsOfService = new Uri("https://example.com/terms"),
-		
+
 		Contact = new OpenApiContact
 		{
 			Name = "Smit Chhatrola",
-			Url= new Uri("https://github.com/smitchhatrola2505")
+			Url = new Uri("https://github.com/smitchhatrola2505")
 		},
 		License = new OpenApiLicense
-		{ 
-			Name= "License",
+		{
+			Name = "License",
 			Url = new Uri("https://example.com/license")
 		}
 	});
@@ -154,8 +164,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI(options =>
 	{
-		options.SwaggerEndpoint("/swagger/v1/swagger.json","Magic_VillaV1");
-		options.SwaggerEndpoint("/swagger/v2/swagger.json","Magic_VillaV2");
+		options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+		options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
 	});
 }
 
